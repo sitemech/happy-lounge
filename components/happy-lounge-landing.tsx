@@ -27,54 +27,56 @@ const HMS_SYSTEM_ID = "19204"
 const CALENDAR_POPOVER_WIDTH = 320
 const CALENDAR_POPOVER_HEIGHT = 356
 const CALENDAR_VIEWPORT_GAP = 16
+const HERO_BACKGROUND =
+  'linear-gradient(180deg, rgba(3, 6, 12, 0.18), rgba(3, 6, 12, 0.08) 34%, rgba(3, 6, 12, 0.42) 68%, rgba(3, 6, 12, 0.7) 100%), url("happy-lounge/vert-image.webp")'
 
 const galleryImages = [
   {
-    src: "/happy-lounge/gallery/684155150_18098393440895782_4862020916351866538_n.webp",
+    src: "happy-lounge/gallery/684155150_18098393440895782_4862020916351866538_n.webp",
     alt: "Capsule corridor with colorful lighting",
   },
   {
-    src: "/happy-lounge/gallery/682069447_18098393422895782_2488191331302629506_n.webp",
+    src: "happy-lounge/gallery/682069447_18098393422895782_2488191331302629506_n.webp",
     alt: "White capsule with television",
   },
   {
-    src: "/happy-lounge/gallery/681920488_18098393431895782_4085752355504998857_n.webp",
+    src: "happy-lounge/gallery/681920488_18098393431895782_4085752355504998857_n.webp",
     alt: "Pink capsule interior with bed",
   },
   {
-    src: "/happy-lounge/gallery/684155150_18098393440895782_4862020916351866538_n.webp",
+    src: "happy-lounge/gallery/684155150_18098393440895782_4862020916351866538_n.webp",
     alt: "Blue capsule room with round mirror and television",
   },
   {
-    src: "/happy-lounge/gallery/684150819_18098393386895782_7924636822680206781_n.webp",
+    src: "happy-lounge/gallery/684150819_18098393386895782_7924636822680206781_n.webp",
     alt: "Bright white capsule room",
   },
   {
-    src: "/happy-lounge/gallery/684228118_18098393449895782_8203935883988234420_n.webp",
+    src: "happy-lounge/gallery/684228118_18098393449895782_8203935883988234420_n.webp",
     alt: "Blue illuminated capsule room",
   },
   {
-    src: "/happy-lounge/gallery/684169367_18098393476895782_5534451310426061828_n.webp",
+    src: "happy-lounge/gallery/684169367_18098393476895782_5534451310426061828_n.webp",
     alt: "Green illuminated capsule room",
   },
   {
-    src: "/happy-lounge/gallery/682900250_18098393395895782_5038816440864659210_n.webp",
+    src: "happy-lounge/gallery/682900250_18098393395895782_5038816440864659210_n.webp",
     alt: "Blue capsule corridor",
   },
   {
-    src: "/happy-lounge/gallery/682692610_18098393485895782_7078476068532810665_n.webp",
+    src: "happy-lounge/gallery/682692610_18098393485895782_7078476068532810665_n.webp",
     alt: "Purple capsule room",
   },
   {
-    src: "/happy-lounge/gallery/682070088_18098393467895782_8196955684394527818_n.webp",
+    src: "happy-lounge/gallery/682070088_18098393467895782_8196955684394527818_n.webp",
     alt: "Capsule room with cool blue lighting",
   },
   {
-    src: "/happy-lounge/gallery/683885801_18098393404895782_3730434924778010777_n.webp",
+    src: "happy-lounge/gallery/683885801_18098393404895782_3730434924778010777_n.webp",
     alt: "White capsule with soft neon light",
   },
   {
-    src: "/happy-lounge/gallery/684166545_18098393377895782_4506078063963357471_n.webp",
+    src: "happy-lounge/gallery/684166545_18098393377895782_4506078063963357471_n.webp",
     alt: "Capsule bed with violet light",
   },
 ]
@@ -676,7 +678,11 @@ export function HappyLoungeLanding() {
   return (
     <main className={styles.page}>
       <div className={styles.shell}>
-        <header className={styles.hero} id="top">
+        <header
+          className={styles.hero}
+          id="top"
+          style={{ backgroundImage: HERO_BACKGROUND }}
+        >
           <nav className={styles.nav} aria-label="Main navigation">
             <a className={styles.brand} href="#top">
               HAPPY LOUNGE
