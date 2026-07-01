@@ -677,15 +677,6 @@ export function HappyLoungeLanding() {
     <main className={styles.page}>
       <div className={styles.shell}>
         <header className={styles.hero} id="top">
-          <div className={styles.heroMedia} aria-hidden="true">
-            <img
-              className={styles.heroImage}
-              src="/happy-lounge/vert-image.webp"
-              alt=""
-            />
-          </div>
-          <div className={styles.heroOverlay} aria-hidden="true" />
-
           <nav className={styles.nav} aria-label="Main navigation">
             <a className={styles.brand} href="#top">
               HAPPY LOUNGE
