@@ -420,10 +420,10 @@ function buildCalendarDays(viewDate: Date) {
 }
 
 export function HappyLoungeLanding() {
-  const today = new Date()
-  const defaultCheckIn = formatInputDate(addDays(today, 1))
-  const defaultCheckOut = formatInputDate(addDays(today, 2))
+  const fallbackCheckIn = "2026-07-02"
+  const fallbackCheckOut = "2026-07-03"
   const [language, setLanguage] = useState<Language>("en")
+  const [isMounted, setIsMounted] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
   const [featuresExpanded, setFeaturesExpanded] = useState(false)
   const [reviewIndex, setReviewIndex] = useState(0)
@@ -431,8 +431,9 @@ export function HappyLoungeLanding() {
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null)
   const [bookingOpen, setBookingOpen] = useState(false)
   const [viewportWidth, setViewportWidth] = useState(1440)
-  const [checkIn, setCheckIn] = useState(defaultCheckIn)
-  const [checkOut, setCheckOut] = useState(defaultCheckOut)
+  const [earliestCheckIn, setEarliestCheckIn] = useState(fallbackCheckIn)
+  const [checkIn, setCheckIn] = useState(fallbackCheckIn)
+  const [checkOut, setCheckOut] = useState(fallbackCheckOut)
   const [openPicker, setOpenPicker] = useState<"checkIn" | "checkOut" | null>(
     null,
   )
@@ -440,11 +441,26 @@ export function HappyLoungeLanding() {
     { left: number; top: number } | undefined
   >(undefined)
   const [calendarMonth, setCalendarMonth] = useState(() =>
-    new Date(today.getFullYear(), today.getMonth(), 1),
+    new Date(2026, 6, 1),
   )
   const datePickerRef = useRef<HTMLDivElement | null>(null)
   const checkInButtonRef = useRef<HTMLButtonElement | null>(null)
   const checkOutButtonRef = useRef<HTMLButtonElement | null>(null)
+
+  useEffect(() => {
+    setIsMounted(true)
+    const today = new Date()
+    const nextCheckIn = formatInputDate(addDays(today, 1))
+    const nextCheckOut = formatInputDate(addDays(today, 2))
+
+    setEarliestCheckIn(nextCheckIn)
+    setCheckIn(nextCheckIn)
+    setCheckOut(nextCheckOut)
+    setCalendarMonth(() => {
+      const checkInDate = parseInputDate(nextCheckIn)
+      return new Date(checkInDate.getFullYear(), checkInDate.getMonth(), 1)
+    })
+  }, [])
 
   useEffect(() => {
     const onResize = () => setViewportWidth(window.innerWidth)
@@ -574,7 +590,7 @@ export function HappyLoungeLanding() {
           return galleryImages[(galleryIndex + index) % galleryImages.length]
         })
 
-  const minCheckInDate = parseInputDate(defaultCheckIn)
+  const minCheckInDate = parseInputDate(earliestCheckIn)
   const minCheckOutDate = parseInputDate(
     formatInputDate(addDays(parseInputDate(checkIn), 1)),
   )
@@ -711,7 +727,7 @@ export function HappyLoungeLanding() {
                   aria-label={copy.checkInLabel}
                   onClick={() => openLocalizedPicker("checkIn")}
                 >
-                  {formatDisplayDate(checkIn, dateLocale)}
+                  {isMounted ? formatDisplayDate(checkIn, dateLocale) : ""}
                 </button>
                 {openPicker === "checkIn" && (
                   <div
@@ -794,7 +810,7 @@ export function HappyLoungeLanding() {
                   aria-label={copy.checkOutLabel}
                   onClick={() => openLocalizedPicker("checkOut")}
                 >
-                  {formatDisplayDate(checkOut, dateLocale)}
+                  {isMounted ? formatDisplayDate(checkOut, dateLocale) : ""}
                 </button>
                 {openPicker === "checkOut" && (
                   <div
