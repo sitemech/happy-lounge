@@ -1,5 +1,5 @@
-import { HappyLoungeLanding } from "@/components/happy-lounge-landing"
+import { HappyLoungePage } from "@/components/happy-lounge-page"
 
 export default function Page() {
-  return <HappyLoungeLanding />
+  return <HappyLoungePage />
 }
