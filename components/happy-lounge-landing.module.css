@@ -22,19 +22,31 @@
   background: #16181d;
 }
 
-.hero::before {
-  content: "";
+.heroMedia,
+.heroOverlay {
   position: absolute;
   inset: 0;
-  background:
-    linear-gradient(
-      180deg,
-      rgba(3, 6, 12, 0.34),
-      rgba(3, 6, 12, 0.18) 42%,
-      rgba(3, 6, 12, 0.66) 100%
-    ),
-    url("/happy-lounge/vert-image.webp") center / cover;
+}
+
+.heroMedia {
+  overflow: hidden;
+}
+
+.heroImage {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
   transform: scale(1.02);
+}
+
+.heroOverlay {
+  background: linear-gradient(
+    180deg,
+    rgba(3, 6, 12, 0.34),
+    rgba(3, 6, 12, 0.18) 42%,
+    rgba(3, 6, 12, 0.66) 100%
+  );
 }
 
 .nav {
@@ -705,8 +717,8 @@
     min-height: 568px;
   }
 
-  .hero::before {
-    background-position: 46% center;
+  .heroImage {
+    object-position: 46% center;
   }
 
   .heroTitle {
