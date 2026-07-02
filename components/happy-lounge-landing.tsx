@@ -565,29 +565,27 @@ export function HappyLoungeLanding() {
           </div>
 
           <div className={styles.galleryCarousel} aria-label="Photo gallery">
-            <div className={styles.galleryWindow}>
-              <div
-                className={styles.galleryGrid}
-                style={{
-                  gridTemplateColumns: `repeat(${Math.min(visibleGalleryItems.length, galleryColumns)}, minmax(0, 1fr))`,
-                }}
-              >
-                {visibleGalleryItems.map((image) => {
-                  const actualIndex = galleryImages.findIndex(
-                    (item) => item.src === image.src && item.alt === image.alt,
-                  )
-                  return (
-                    <button
-                      key={`${image.src}-${image.alt}`}
-                      className={styles.galleryItem}
-                      type="button"
-                      onClick={() => setLightboxIndex(actualIndex)}
-                    >
-                      <img src={image.src} alt={image.alt} />
-                    </button>
-                  )
-                })}
-              </div>
+            <div
+              className={styles.galleryGrid}
+              style={{
+                gridTemplateColumns: `repeat(${Math.min(visibleGalleryItems.length, galleryColumns)}, minmax(0, 1fr))`,
+              }}
+            >
+              {visibleGalleryItems.map((image) => {
+                const actualIndex = galleryImages.findIndex(
+                  (item) => item.src === image.src && item.alt === image.alt,
+                )
+                return (
+                  <button
+                    key={`${image.src}-${image.alt}`}
+                    className={styles.galleryItem}
+                    type="button"
+                    onClick={() => setLightboxIndex(actualIndex)}
+                  >
+                    <img src={image.src} alt={image.alt} />
+                  </button>
+                )
+              })}
             </div>
           </div>
 
