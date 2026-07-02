@@ -1,32 +1,12 @@
 "use client"
 
-import { useEffect, useMemo, useRef, useState } from "react"
-import {
-  BedDouble,
-  ChevronLeft,
-  ChevronRight,
-  Clock3,
-  Coffee,
-  Lock,
-  MapPin,
-  Shield,
-  Sparkles,
-  X,
-  Zap,
-} from "lucide-react"
+import { useEffect, useState } from "react"
+import { BedDouble, ChevronLeft, ChevronRight, Coffee, Lock, MapPin, Sparkles, X, Zap } from "lucide-react"
 
 import styles from "./happy-lounge-landing.module.css"
 
-const BOOKING_EMBED_URL =
-  "https://booking-online.otelms.com/booking/rooms?hms_system_id=19204"
 const BOOKING_NEW_TAB_URL =
   "https://booking-online.otelms.com/?hms_system_id=19204/"
-const BOOKING_SEARCH_URL =
-  "https://booking-online.otelms.com/booking/rooms_ajax_post_data"
-const HMS_SYSTEM_ID = "19204"
-const CALENDAR_POPOVER_WIDTH = 320
-const CALENDAR_POPOVER_HEIGHT = 356
-const CALENDAR_VIEWPORT_GAP = 16
 const HERO_BACKGROUND =
   'linear-gradient(180deg, rgba(3, 6, 12, 0.18), rgba(3, 6, 12, 0.08) 34%, rgba(3, 6, 12, 0.42) 68%, rgba(3, 6, 12, 0.7) 100%), url("happy-lounge/vert-image.webp")'
 const GOOGLE_MAPS_URL =
@@ -151,8 +131,6 @@ const content = {
     galleryTitle: "Gallery",
     galleryLead: "Photos from",
     galleryAccent: "Happy Lounge capsule hotel",
-    checkInLabel: "Check-in",
-    checkOutLabel: "Check-out",
     locationLine: "63 Merab Kostava St, Tbilisi, Georgia",
     openBookingNewTab: "Open booking in new tab",
     openInGoogleMaps: "Open in Google Maps",
@@ -237,8 +215,6 @@ const content = {
     galleryTitle: "Галерея",
     galleryLead: "Фотографии",
     galleryAccent: "Happy Lounge capsule hotel",
-    checkInLabel: "Заезд",
-    checkOutLabel: "Выезд",
     locationLine: "63 Merab Kostava St, Тбилиси, Грузия",
     openBookingNewTab: "Открыть бронирование в новой вкладке",
     openInGoogleMaps: "Открыть в Google Maps",
@@ -322,8 +298,6 @@ const content = {
     galleryTitle: "გალერეა",
     galleryLead: "ფოტოები",
     galleryAccent: "Happy Lounge capsule hotel-დან",
-    checkInLabel: "შესვლა",
-    checkOutLabel: "გასვლა",
     locationLine: "63 Merab Kostava St, თბილისი, საქართველო",
     openBookingNewTab: "დაჯავშნის გახსნა ახალ ჩანართში",
     openInGoogleMaps: "გახსნა Google Maps-ში",
@@ -348,65 +322,6 @@ const content = {
 type Language = keyof typeof content
 
 const featureIcons = [BedDouble, Sparkles, Lock, MapPin, Zap, Coffee]
-const calendarLocaleData: Record<
-  Language,
-  {
-    months: string[]
-    weekdays: string[]
-  }
-> = {
-  en: {
-    months: [
-      "January",
-      "February",
-      "March",
-      "April",
-      "May",
-      "June",
-      "July",
-      "August",
-      "September",
-      "October",
-      "November",
-      "December",
-    ],
-    weekdays: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
-  },
-  ru: {
-    months: [
-      "Январь",
-      "Февраль",
-      "Март",
-      "Апрель",
-      "Май",
-      "Июнь",
-      "Июль",
-      "Август",
-      "Сентябрь",
-      "Октябрь",
-      "Ноябрь",
-      "Декабрь",
-    ],
-    weekdays: ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"],
-  },
-  ka: {
-    months: [
-      "იანვარი",
-      "თებერვალი",
-      "მარტი",
-      "აპრილი",
-      "მაისი",
-      "ივნისი",
-      "ივლისი",
-      "აგვისტო",
-      "სექტემბერი",
-      "ოქტომბერი",
-      "ნოემბერი",
-      "დეკემბერი",
-    ],
-    weekdays: ["ორშ", "სამ", "ოთხ", "ხუთ", "პარ", "შაბ", "კვი"],
-  },
-}
 
 function getVisibleGalleryCount(width: number) {
   if (width <= 540) return 1
@@ -414,95 +329,14 @@ function getVisibleGalleryCount(width: number) {
   return 4
 }
 
-function formatInputDate(date: Date) {
-  const year = date.getFullYear()
-  const month = `${date.getMonth() + 1}`.padStart(2, "0")
-  const day = `${date.getDate()}`.padStart(2, "0")
-  return `${year}-${month}-${day}`
-}
-
-function addDays(base: Date, days: number) {
-  const next = new Date(base)
-  next.setDate(next.getDate() + days)
-  return next
-}
-
-function toOtelmsTimestamp(date: string) {
-  const [year, month, day] = date.split("-").map(Number)
-  return Date.UTC(year, month - 1, day, 0, 0, 0, 0).toString()
-}
-
-function parseInputDate(date: string) {
-  const [year, month, day] = date.split("-").map(Number)
-  return new Date(year, month - 1, day)
-}
-
-function formatDisplayDate(date: string, locale: string) {
-  return new Intl.DateTimeFormat(locale, {
-    day: "2-digit",
-    month: "2-digit",
-    year: "numeric",
-  }).format(parseInputDate(date))
-}
-
-function sameDay(left: Date, right: Date) {
-  return (
-    left.getFullYear() === right.getFullYear() &&
-    left.getMonth() === right.getMonth() &&
-    left.getDate() === right.getDate()
-  )
-}
-
-function buildCalendarDays(viewDate: Date) {
-  const start = new Date(viewDate.getFullYear(), viewDate.getMonth(), 1)
-  const startWeekday = (start.getDay() + 6) % 7
-  const gridStart = addDays(start, -startWeekday)
-
-  return Array.from({ length: 42 }, (_, index) => addDays(gridStart, index))
-}
-
 export function HappyLoungeLanding() {
-  const fallbackCheckIn = "2026-07-02"
-  const fallbackCheckOut = "2026-07-03"
   const [language, setLanguage] = useState<Language>("en")
-  const [isMounted, setIsMounted] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
   const [featuresExpanded, setFeaturesExpanded] = useState(false)
   const [reviewIndex, setReviewIndex] = useState(0)
   const [galleryIndex, setGalleryIndex] = useState(0)
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null)
-  const [bookingOpen, setBookingOpen] = useState(false)
   const [viewportWidth, setViewportWidth] = useState(1440)
-  const [earliestCheckIn, setEarliestCheckIn] = useState(fallbackCheckIn)
-  const [checkIn, setCheckIn] = useState(fallbackCheckIn)
-  const [checkOut, setCheckOut] = useState(fallbackCheckOut)
-  const [openPicker, setOpenPicker] = useState<"checkIn" | "checkOut" | null>(
-    null,
-  )
-  const [calendarStyle, setCalendarStyle] = useState<
-    { left: number; top: number } | undefined
-  >(undefined)
-  const [calendarMonth, setCalendarMonth] = useState(() =>
-    new Date(2026, 6, 1),
-  )
-  const datePickerRef = useRef<HTMLDivElement | null>(null)
-  const checkInButtonRef = useRef<HTMLButtonElement | null>(null)
-  const checkOutButtonRef = useRef<HTMLButtonElement | null>(null)
-
-  useEffect(() => {
-    setIsMounted(true)
-    const today = new Date()
-    const nextCheckIn = formatInputDate(addDays(today, 1))
-    const nextCheckOut = formatInputDate(addDays(today, 2))
-
-    setEarliestCheckIn(nextCheckIn)
-    setCheckIn(nextCheckIn)
-    setCheckOut(nextCheckOut)
-    setCalendarMonth(() => {
-      const checkInDate = parseInputDate(nextCheckIn)
-      return new Date(checkInDate.getFullYear(), checkInDate.getMonth(), 1)
-    })
-  }, [])
 
   useEffect(() => {
     const onResize = () => setViewportWidth(window.innerWidth)
@@ -517,7 +351,7 @@ export function HappyLoungeLanding() {
     const previousLang = root.lang
     root.lang = language
 
-    if (bookingOpen || lightboxIndex !== null) {
+    if (lightboxIndex !== null) {
       const previousOverflow = body.style.overflow
       body.style.overflow = "hidden"
       return () => {
@@ -529,70 +363,12 @@ export function HappyLoungeLanding() {
     return () => {
       root.lang = previousLang
     }
-  }, [bookingOpen, language, lightboxIndex])
-
-  useEffect(() => {
-    if (!openPicker) return
-
-    const onPointerDown = (event: MouseEvent) => {
-      if (!datePickerRef.current?.contains(event.target as Node)) {
-        setOpenPicker(null)
-      }
-    }
-
-    window.addEventListener("mousedown", onPointerDown)
-    return () => window.removeEventListener("mousedown", onPointerDown)
-  }, [openPicker])
-
-  useEffect(() => {
-    if (!openPicker) return
-
-    const updatePosition = () => {
-      const anchor =
-        openPicker === "checkIn"
-          ? checkInButtonRef.current
-          : checkOutButtonRef.current
-
-      if (!anchor) return
-
-      const rect = anchor.getBoundingClientRect()
-      const availableBelow = window.innerHeight - rect.bottom - CALENDAR_VIEWPORT_GAP
-      const availableAbove = rect.top - CALENDAR_VIEWPORT_GAP
-      const shouldOpenBelow =
-        availableBelow >= CALENDAR_POPOVER_HEIGHT || availableBelow >= availableAbove
-
-      let left = rect.left
-      let top = shouldOpenBelow
-        ? rect.bottom + 10
-        : rect.top - CALENDAR_POPOVER_HEIGHT - 10
-
-      left = Math.min(
-        Math.max(CALENDAR_VIEWPORT_GAP, left),
-        window.innerWidth - CALENDAR_POPOVER_WIDTH - CALENDAR_VIEWPORT_GAP,
-      )
-
-      top = Math.min(
-        Math.max(CALENDAR_VIEWPORT_GAP, top),
-        window.innerHeight - CALENDAR_POPOVER_HEIGHT - CALENDAR_VIEWPORT_GAP,
-      )
-
-      setCalendarStyle({ left, top })
-    }
-
-    updatePosition()
-    window.addEventListener("resize", updatePosition)
-    window.addEventListener("scroll", updatePosition, true)
-    return () => {
-      window.removeEventListener("resize", updatePosition)
-      window.removeEventListener("scroll", updatePosition, true)
-    }
-  }, [openPicker])
+  }, [language, lightboxIndex])
 
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
         setMenuOpen(false)
-        setBookingOpen(false)
         setLightboxIndex(null)
       }
 
@@ -615,16 +391,6 @@ export function HappyLoungeLanding() {
 
   const copy = content[language]
   const reviews = copy.reviews
-  const dateLocale = copy.locale
-  const calendarLabels = calendarLocaleData[language]
-  const monthLabel = useMemo(() => {
-    return `${calendarLabels.months[calendarMonth.getMonth()]} ${calendarMonth.getFullYear()}`
-  }, [calendarLabels.months, calendarMonth])
-  const weekdayLabels = calendarLabels.weekdays
-  const calendarDays = useMemo(
-    () => buildCalendarDays(calendarMonth),
-    [calendarMonth],
-  )
   const visibleGalleryCount = getVisibleGalleryCount(viewportWidth)
   const visibleGalleryItems =
     visibleGalleryCount >= galleryImages.length
@@ -632,89 +398,6 @@ export function HappyLoungeLanding() {
       : Array.from({ length: visibleGalleryCount }, (_, index) => {
           return galleryImages[(galleryIndex + index) % galleryImages.length]
         })
-
-  const minCheckInDate = parseInputDate(earliestCheckIn)
-  const minCheckOutDate = parseInputDate(
-    formatInputDate(addDays(parseInputDate(checkIn), 1)),
-  )
-  const selectedCheckInDate = parseInputDate(checkIn)
-  const selectedCheckOutDate = parseInputDate(checkOut)
-
-  function openLocalizedPicker(target: "checkIn" | "checkOut") {
-    setCalendarMonth(
-      new Date(
-        (target === "checkIn" ? selectedCheckInDate : selectedCheckOutDate).getFullYear(),
-        (target === "checkIn" ? selectedCheckInDate : selectedCheckOutDate).getMonth(),
-        1,
-      ),
-    )
-    setOpenPicker(target)
-  }
-
-  function selectDate(target: "checkIn" | "checkOut", day: Date) {
-    const nextValue = formatInputDate(day)
-
-    if (target === "checkIn") {
-      setCheckIn(nextValue)
-      if (nextValue >= checkOut) {
-        setCheckOut(formatInputDate(addDays(day, 1)))
-      }
-    } else {
-      setCheckOut(nextValue)
-    }
-
-    setOpenPicker(null)
-  }
-
-  function openBookingWithDates() {
-    const popupName = `otelms-booking-${Date.now()}`
-    const bookingTab = window.open(BOOKING_EMBED_URL, popupName)
-
-    if (!bookingTab) {
-      window.location.href = BOOKING_EMBED_URL
-      return
-    }
-
-    const form = document.createElement("form")
-    form.method = "POST"
-    form.action = BOOKING_SEARCH_URL
-    form.target = popupName
-    form.style.display = "none"
-
-    const payload: Record<string, string> = {
-      "client_data[selectedDate][in][selected]": "true",
-      "client_data[selectedDate][in][timestamp]": toOtelmsTimestamp(checkIn),
-      "client_data[selectedDate][out][selected]": "true",
-      "client_data[selectedDate][out][timestamp]": toOtelmsTimestamp(checkOut),
-      "client_data[peoples][adult]": "1",
-      "client_data[peoples][children]": "0",
-      "client_data[rooms_count]": "1",
-      "client_data[rooms][first_room][adult]": "1",
-      "client_data[promoCode]": "",
-      "client_data[childId]": "1",
-      "client_data[needRefresh]": "true",
-      hms_system_id: HMS_SYSTEM_ID,
-    }
-
-    for (const [name, value] of Object.entries(payload)) {
-      const input = document.createElement("input")
-      input.type = "hidden"
-      input.name = name
-      input.value = value
-      form.appendChild(input)
-    }
-
-    document.body.appendChild(form)
-
-    window.setTimeout(() => {
-      form.submit()
-    }, 2500)
-
-    window.setTimeout(() => {
-      bookingTab.location.href = BOOKING_EMBED_URL
-      form.remove()
-    }, 4300)
-  }
 
   return (
     <main className={styles.page}>
@@ -764,177 +447,11 @@ export function HappyLoungeLanding() {
           <div className={styles.heroCopy}>
             <h1 className={styles.heroTitle}>{copy.heroTitle}</h1>
             <p className={styles.heroText}>{copy.heroText}</p>
-            <div className={styles.bookingBar} ref={openPicker ? datePickerRef : null}>
-              <div className={styles.dateField}>
-                <span>{copy.checkInLabel}</span>
-                <button
-                  ref={checkInButtonRef}
-                  className={styles.dateInput}
-                  type="button"
-                  aria-label={copy.checkInLabel}
-                  onClick={() => openLocalizedPicker("checkIn")}
-                >
-                  {isMounted ? formatDisplayDate(checkIn, dateLocale) : ""}
-                </button>
-                {openPicker === "checkIn" && (
-                  <div
-                    className={styles.calendarPopover}
-                    lang={dateLocale}
-                    style={calendarStyle}
-                  >
-                    <div className={styles.calendarHeader}>
-                      <button
-                        className={styles.calendarNav}
-                        type="button"
-                        aria-label="Previous month"
-                        onClick={() =>
-                          setCalendarMonth(
-                            new Date(
-                              calendarMonth.getFullYear(),
-                              calendarMonth.getMonth() - 1,
-                              1,
-                            ),
-                          )
-                        }
-                      >
-                        <ChevronLeft />
-                      </button>
-                      <strong className={styles.calendarTitle}>{monthLabel}</strong>
-                      <button
-                        className={styles.calendarNav}
-                        type="button"
-                        aria-label="Next month"
-                        onClick={() =>
-                          setCalendarMonth(
-                            new Date(
-                              calendarMonth.getFullYear(),
-                              calendarMonth.getMonth() + 1,
-                              1,
-                            ),
-                          )
-                        }
-                      >
-                        <ChevronRight />
-                      </button>
-                    </div>
-                    <div className={styles.calendarWeekdays}>
-                      {weekdayLabels.map((label) => (
-                        <span key={label}>{label}</span>
-                      ))}
-                    </div>
-                    <div className={styles.calendarGrid}>
-                      {calendarDays.map((day) => {
-                        const inCurrentMonth =
-                          day.getMonth() === calendarMonth.getMonth()
-                        const disabled = day < minCheckInDate
-                        const selected = sameDay(day, selectedCheckInDate)
-
-                        return (
-                          <button
-                            key={day.toISOString()}
-                            className={`${styles.calendarDay} ${
-                              !inCurrentMonth ? styles.calendarDayMuted : ""
-                            } ${selected ? styles.calendarDaySelected : ""}`}
-                            type="button"
-                            disabled={disabled}
-                            onClick={() => selectDate("checkIn", day)}
-                          >
-                            {day.getDate()}
-                          </button>
-                        )
-                      })}
-                    </div>
-                  </div>
-                )}
-              </div>
-
-              <div className={styles.dateField}>
-                <span>{copy.checkOutLabel}</span>
-                <button
-                  ref={checkOutButtonRef}
-                  className={styles.dateInput}
-                  type="button"
-                  aria-label={copy.checkOutLabel}
-                  onClick={() => openLocalizedPicker("checkOut")}
-                >
-                  {isMounted ? formatDisplayDate(checkOut, dateLocale) : ""}
-                </button>
-                {openPicker === "checkOut" && (
-                  <div
-                    className={styles.calendarPopover}
-                    lang={dateLocale}
-                    style={calendarStyle}
-                  >
-                    <div className={styles.calendarHeader}>
-                      <button
-                        className={styles.calendarNav}
-                        type="button"
-                        aria-label="Previous month"
-                        onClick={() =>
-                          setCalendarMonth(
-                            new Date(
-                              calendarMonth.getFullYear(),
-                              calendarMonth.getMonth() - 1,
-                              1,
-                            ),
-                          )
-                        }
-                      >
-                        <ChevronLeft />
-                      </button>
-                      <strong className={styles.calendarTitle}>{monthLabel}</strong>
-                      <button
-                        className={styles.calendarNav}
-                        type="button"
-                        aria-label="Next month"
-                        onClick={() =>
-                          setCalendarMonth(
-                            new Date(
-                              calendarMonth.getFullYear(),
-                              calendarMonth.getMonth() + 1,
-                              1,
-                            ),
-                          )
-                        }
-                      >
-                        <ChevronRight />
-                      </button>
-                    </div>
-                    <div className={styles.calendarWeekdays}>
-                      {weekdayLabels.map((label) => (
-                        <span key={label}>{label}</span>
-                      ))}
-                    </div>
-                    <div className={styles.calendarGrid}>
-                      {calendarDays.map((day) => {
-                        const inCurrentMonth =
-                          day.getMonth() === calendarMonth.getMonth()
-                        const disabled = day < minCheckOutDate
-                        const selected = sameDay(day, selectedCheckOutDate)
-
-                        return (
-                          <button
-                            key={day.toISOString()}
-                            className={`${styles.calendarDay} ${
-                              !inCurrentMonth ? styles.calendarDayMuted : ""
-                            } ${selected ? styles.calendarDaySelected : ""}`}
-                            type="button"
-                            disabled={disabled}
-                            onClick={() => selectDate("checkOut", day)}
-                          >
-                            {day.getDate()}
-                          </button>
-                        )
-                      })}
-                    </div>
-                  </div>
-                )}
-              </div>
-
+            <div className={styles.bookingBar}>
               <button
                 className={styles.heroButton}
                 type="button"
-                onClick={openBookingWithDates}
+                onClick={() => window.open(BOOKING_NEW_TAB_URL, "_blank", "noopener,noreferrer")}
               >
                 {copy.heroButton}
               </button>
@@ -1199,40 +716,6 @@ export function HappyLoungeLanding() {
         </div>
       )}
 
-      {bookingOpen && (
-        <div
-          className={styles.bookingModal}
-          role="dialog"
-          aria-modal="true"
-          aria-label="Booking widget"
-          onClick={(event) => {
-            if (event.target === event.currentTarget) setBookingOpen(false)
-          }}
-        >
-          <div className={styles.bookingFrame}>
-            <div className={styles.bookingHeader}>
-              <span>Happy Lounge booking</span>
-              <a href={BOOKING_NEW_TAB_URL} target="_blank" rel="noreferrer">
-                {copy.openBookingNewTab}
-              </a>
-            </div>
-            <button
-              className={styles.close}
-              type="button"
-              aria-label="Close booking widget"
-              onClick={() => setBookingOpen(false)}
-            >
-              <X />
-            </button>
-            <iframe
-              className={styles.bookingIframe}
-              title="Happy Lounge booking widget"
-              src={BOOKING_EMBED_URL}
-              loading="lazy"
-            />
-          </div>
-        </div>
-      )}
     </main>
   )
 }

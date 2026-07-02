@@ -129,132 +129,18 @@
 }
 
 .bookingBar {
-  width: min(760px, 100%);
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr)) auto;
-  gap: 14px;
-  align-items: end;
-  margin: 215px auto 0;
-}
-
-.dateField {
-  position: relative;
-  display: grid;
-  gap: 8px;
-  text-align: left;
-}
-
-.dateField span {
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.84);
-}
-
-.dateInput {
-  min-height: 52px;
-  padding: 0 16px;
-  border: 1px solid rgba(255, 255, 255, 0.22);
-  border-radius: 8px;
-  color: #fff;
-  background: rgba(255, 255, 255, 0.12);
-  font: inherit;
-  text-align: left;
-  cursor: pointer;
-}
-
-.calendarPopover {
-  position: fixed;
-  z-index: 12;
-  width: 320px;
-  padding: 16px;
-  border-radius: 16px;
-  background: rgba(17, 21, 28, 0.94);
-  box-shadow: 0 18px 48px rgba(0, 0, 0, 0.32);
-  backdrop-filter: blur(18px);
-}
-
-.calendarHeader {
+  width: min(360px, 100%);
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-}
-
-.calendarTitle {
-  font-size: 15px;
-  font-weight: 700;
-  text-transform: capitalize;
-}
-
-.calendarNav {
-  width: 34px;
-  height: 34px;
-  display: grid;
-  place-items: center;
-  border: 0;
-  border-radius: 999px;
-  color: #fff;
-  background: rgba(255, 255, 255, 0.12);
-  cursor: pointer;
-}
-
-.calendarNav svg {
-  width: 18px;
-  height: 18px;
-}
-
-.calendarWeekdays,
-.calendarGrid {
-  display: grid;
-  grid-template-columns: repeat(7, minmax(0, 1fr));
-}
-
-.calendarWeekdays {
-  margin-top: 14px;
-  color: rgba(255, 255, 255, 0.7);
-  font-size: 12px;
-  text-align: center;
-}
-
-.calendarGrid {
-  gap: 4px;
-  margin-top: 10px;
-}
-
-.calendarDay {
-  min-height: 38px;
-  border: 0;
-  border-radius: 10px;
-  color: #fff;
-  background: transparent;
-  font: inherit;
-  cursor: pointer;
-}
-
-.calendarDay:hover:not(:disabled) {
-  background: rgba(255, 255, 255, 0.14);
-}
-
-.calendarDay:disabled {
-  color: rgba(255, 255, 255, 0.28);
-  cursor: not-allowed;
-}
-
-.calendarDayMuted {
-  color: rgba(255, 255, 255, 0.48);
-}
-
-.calendarDaySelected {
-  background: #2f8cff;
+  justify-content: center;
+  margin: 215px auto 0;
 }
 
 .heroButton {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-width: 118px;
+  width: 100%;
+  min-width: 0;
   min-height: 48px;
   padding: 14px 26px;
   border: 0;
@@ -545,8 +431,7 @@
   color: #2f8cff;
 }
 
-.lightbox,
-.bookingModal {
+.lightbox {
   position: fixed;
   inset: 0;
   z-index: 30;
@@ -556,56 +441,11 @@
   background: rgba(9, 12, 18, 0.84);
 }
 
-.bookingModal {
-  z-index: 40;
-  background: rgba(9, 12, 18, 0.78);
-}
-
 .lightboxImage {
   width: min(1040px, 100%);
   max-height: 86vh;
   object-fit: contain;
   border-radius: 8px;
-}
-
-.bookingFrame {
-  position: relative;
-  width: min(1120px, 100%);
-  height: min(760px, 88vh);
-  border-radius: 8px;
-  overflow: hidden;
-  background: #fff;
-  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.28);
-}
-
-.bookingHeader {
-  position: absolute;
-  left: 18px;
-  right: 76px;
-  top: 18px;
-  z-index: 1;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  padding: 10px 14px;
-  border-radius: 999px;
-  color: #303743;
-  background: rgba(255, 255, 255, 0.92);
-  box-shadow: 0 8px 24px rgba(26, 31, 40, 0.08);
-}
-
-.bookingHeader a {
-  color: #2f8cff;
-  font-size: 13px;
-  font-weight: 700;
-}
-
-.bookingIframe {
-  width: 100%;
-  height: 100%;
-  display: block;
-  border: 0;
 }
 
 .close,
@@ -674,13 +514,8 @@
   }
 
   .bookingBar {
-    width: min(560px, 100%);
-    grid-template-columns: 1fr 1fr;
+    width: min(360px, 100%);
     margin-top: 84px;
-  }
-
-  .heroButton {
-    grid-column: 1 / -1;
   }
 
   .intro {
@@ -733,14 +568,6 @@
     width: calc(100% - 36px);
   }
 
-  .bookingBar {
-    grid-template-columns: 1fr;
-  }
-
-  .calendarPopover {
-    width: min(320px, calc(100vw - 56px));
-  }
-
   .features {
     grid-template-columns: 1fr;
   }
@@ -770,20 +597,8 @@
     gap: 8px;
   }
 
-  .lightbox,
-  .bookingModal {
+  .lightbox {
     padding: 14px;
-  }
-
-  .bookingFrame {
-    height: 86vh;
-  }
-
-  .bookingHeader {
-    left: 12px;
-    right: 62px;
-    top: 12px;
-    flex-wrap: wrap;
   }
 
   .lightboxNav {
