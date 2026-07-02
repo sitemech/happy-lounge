@@ -28,10 +28,6 @@ const galleryImages = [
     alt: "Pink capsule interior with bed",
   },
   {
-    src: "happy-lounge/gallery/684155150_18098393440895782_4862020916351866538_n.webp",
-    alt: "Blue capsule room with round mirror and television",
-  },
-  {
     src: "happy-lounge/gallery/684150819_18098393386895782_7924636822680206781_n.webp",
     alt: "Bright white capsule room",
   },
@@ -50,18 +46,6 @@ const galleryImages = [
   {
     src: "happy-lounge/gallery/682692610_18098393485895782_7078476068532810665_n.webp",
     alt: "Purple capsule room",
-  },
-  {
-    src: "happy-lounge/gallery/682070088_18098393467895782_8196955684394527818_n.webp",
-    alt: "Capsule room with cool blue lighting",
-  },
-  {
-    src: "happy-lounge/gallery/683885801_18098393404895782_3730434924778010777_n.webp",
-    alt: "White capsule with soft neon light",
-  },
-  {
-    src: "happy-lounge/gallery/684166545_18098393377895782_4506078063963357471_n.webp",
-    alt: "Capsule bed with violet light",
   },
 ]
 
@@ -323,7 +307,7 @@ type Language = keyof typeof content
 
 const featureIcons = [BedDouble, Sparkles, Lock, MapPin, Zap, Coffee]
 
-function getVisibleGalleryCount(width: number) {
+function getGalleryColumns(width: number) {
   if (width <= 540) return 1
   if (width <= 900) return 2
   return 4
@@ -334,7 +318,6 @@ export function HappyLoungeLanding() {
   const [menuOpen, setMenuOpen] = useState(false)
   const [featuresExpanded, setFeaturesExpanded] = useState(false)
   const [reviewIndex, setReviewIndex] = useState(0)
-  const [galleryIndex, setGalleryIndex] = useState(0)
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null)
   const [viewportWidth, setViewportWidth] = useState(1440)
 
@@ -391,13 +374,8 @@ export function HappyLoungeLanding() {
 
   const copy = content[language]
   const reviews = copy.reviews
-  const visibleGalleryCount = getVisibleGalleryCount(viewportWidth)
-  const visibleGalleryItems =
-    visibleGalleryCount >= galleryImages.length
-      ? galleryImages
-      : Array.from({ length: visibleGalleryCount }, (_, index) => {
-          return galleryImages[(galleryIndex + index) % galleryImages.length]
-        })
+  const galleryColumns = getGalleryColumns(viewportWidth)
+  const visibleGalleryItems = galleryImages
 
   return (
     <main className={styles.page}>
@@ -587,26 +565,11 @@ export function HappyLoungeLanding() {
           </div>
 
           <div className={styles.galleryCarousel} aria-label="Photo gallery">
-            {visibleGalleryCount < galleryImages.length && (
-              <button
-                className={styles.galleryNav}
-                type="button"
-                aria-label="Previous gallery photo"
-                onClick={() =>
-                  setGalleryIndex(
-                    (galleryIndex - 1 + galleryImages.length) % galleryImages.length,
-                  )
-                }
-              >
-                ‹
-              </button>
-            )}
-
             <div className={styles.galleryWindow}>
               <div
                 className={styles.galleryGrid}
                 style={{
-                  gridTemplateColumns: `repeat(${visibleGalleryItems.length}, minmax(0, 1fr))`,
+                  gridTemplateColumns: `repeat(${Math.min(visibleGalleryItems.length, galleryColumns)}, minmax(0, 1fr))`,
                 }}
               >
                 {visibleGalleryItems.map((image) => {
@@ -626,17 +589,6 @@ export function HappyLoungeLanding() {
                 })}
               </div>
             </div>
-
-            {visibleGalleryCount < galleryImages.length && (
-              <button
-                className={styles.galleryNav}
-                type="button"
-                aria-label="Next gallery photo"
-                onClick={() => setGalleryIndex((galleryIndex + 1) % galleryImages.length)}
-              >
-                ›
-              </button>
-            )}
           </div>
 
           <p className={styles.location}>
