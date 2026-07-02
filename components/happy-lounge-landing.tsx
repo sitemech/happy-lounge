@@ -161,17 +161,14 @@ const content = {
       {
         title: "Clean and comfortable",
         text: "Guests repeatedly mention clean capsules, good privacy, and a cozy layout for short stays in Tbilisi.",
-        person: "Google reviewer",
       },
       {
         title: "Helpful staff",
         text: "Reviews often highlight friendly service, smooth check-in, and a calm atmosphere in the shared areas.",
-        person: "Google reviewer",
       },
       {
         title: "Convenient location",
         text: "Travelers say the hotel is easy to reach, close to transit, and practical for exploring the city center.",
-        person: "Google reviewer",
       },
     ],
   },
@@ -250,17 +247,14 @@ const content = {
       {
         title: "Чисто и удобно",
         text: "Гости регулярно отмечают чистые капсулы, хорошую приватность и уютный формат для короткого проживания в Тбилиси.",
-        person: "Отзыв в Google",
       },
       {
         title: "Дружелюбный персонал",
         text: "Во многих отзывах хвалят приветливый сервис, быстрый заезд и спокойную атмосферу в общих зонах.",
-        person: "Отзыв в Google",
       },
       {
         title: "Удобная локация",
         text: "Путешественники пишут, что отель легко найти, он расположен рядом с транспортом и удобен для поездок по центру города.",
-        person: "Отзыв в Google",
       },
     ],
   },
@@ -338,17 +332,14 @@ const content = {
       {
         title: "სუფთა და კომფორტული",
         text: "სტუმრები ხშირად აღნიშნავენ სუფთა კაფსულებს, კარგ პირად სივრცეს და მყუდრო გარემოს მოკლე დარჩენისთვის თბილისში.",
-        person: "Google შეფასება",
       },
       {
         title: "კარგი მომსახურება",
         text: "შეფასებებში ხშირად ჩანს მეგობრული პერსონალი, მარტივი check-in და მშვიდი ატმოსფერო საერთო სივრცეებში.",
-        person: "Google შეფასება",
       },
       {
         title: "მოხერხებული მდებარეობა",
         text: "მოგზაურები წერენ, რომ სასტუმრო ადვილად მისადგომია, ახლოს არის ტრანსპორტთან და მოსახერხებელია ქალაქში გადაადგილებისთვის.",
-        person: "Google შეფასება",
       },
     ],
   },
@@ -1046,7 +1037,6 @@ export function HappyLoungeLanding() {
                 <p className={styles.reviewSource}>{copy.reviewsSource}</p>
                 <h3 className={styles.reviewTitle}>{reviews[reviewIndex].title}</h3>
                 <p className={styles.quote}>{reviews[reviewIndex].text}</p>
-                <p className={styles.person}>{reviews[reviewIndex].person}</p>
                 <a
                   className={styles.reviewLink}
                   href={GOOGLE_MAPS_URL}
