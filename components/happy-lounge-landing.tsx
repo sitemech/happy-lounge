@@ -29,6 +29,10 @@ const CALENDAR_POPOVER_HEIGHT = 356
 const CALENDAR_VIEWPORT_GAP = 16
 const HERO_BACKGROUND =
   'linear-gradient(180deg, rgba(3, 6, 12, 0.18), rgba(3, 6, 12, 0.08) 34%, rgba(3, 6, 12, 0.42) 68%, rgba(3, 6, 12, 0.7) 100%), url("happy-lounge/vert-image.webp")'
+const GOOGLE_MAPS_URL =
+  "https://www.google.com/maps/search/?api=1&query=Happy+Lounge+capsule+hotel+63+Merab+Kostava+St+Tbilisi"
+const GOOGLE_MAPS_EMBED_URL =
+  "https://www.google.com/maps?q=41.714087,44.782185&z=16&output=embed"
 
 const galleryImages = [
   {
@@ -78,24 +82,6 @@ const galleryImages = [
   {
     src: "happy-lounge/gallery/684166545_18098393377895782_4506078063963357471_n.webp",
     alt: "Capsule bed with violet light",
-  },
-]
-
-const reviews = [
-  {
-    title: "Exceptional",
-    text: '"Great Location, easy check-in, private & comfortable. Nice open space with communal areas for chilling."',
-    person: "Mark, South Africa",
-  },
-  {
-    title: "Excellent stay",
-    text: '"Clean capsules, friendly staff, and the lighting inside the room made the stay feel futuristic."',
-    person: "Anna, Poland",
-  },
-  {
-    title: "Perfect for Tbilisi",
-    text: '"The location is easy to reach, check-in was fast, and the common area was calm after a long day."',
-    person: "David, Germany",
   },
 ]
 
@@ -157,9 +143,11 @@ const content = {
     ],
     featuresToggle: "Show more",
     reviewsTitle: "What Our Guests Say",
-    reviewsLead: "Real experiences from",
-    reviewsLink: "travelers",
-    reviewsLeadSuffix: "around the world",
+    reviewsLead: "Based on recent",
+    reviewsLink: "Google reviews",
+    reviewsLeadSuffix: "for Happy Lounge",
+    reviewsSource: "Google Reviews",
+    reviewsCta: "Read all on Google",
     galleryTitle: "Gallery",
     galleryLead: "Photos from",
     galleryAccent: "Happy Lounge capsule hotel",
@@ -167,6 +155,25 @@ const content = {
     checkOutLabel: "Check-out",
     locationLine: "63 Merab Kostava St, Tbilisi, Georgia",
     openBookingNewTab: "Open booking in new tab",
+    openInGoogleMaps: "Open in Google Maps",
+    mapCredit: "Interactive map powered by Google Maps",
+    reviews: [
+      {
+        title: "Clean and comfortable",
+        text: "Guests repeatedly mention clean capsules, good privacy, and a cozy layout for short stays in Tbilisi.",
+        person: "Google reviewer",
+      },
+      {
+        title: "Helpful staff",
+        text: "Reviews often highlight friendly service, smooth check-in, and a calm atmosphere in the shared areas.",
+        person: "Google reviewer",
+      },
+      {
+        title: "Convenient location",
+        text: "Travelers say the hotel is easy to reach, close to transit, and practical for exploring the city center.",
+        person: "Google reviewer",
+      },
+    ],
   },
   ru: {
     locale: "ru-RU",
@@ -225,9 +232,11 @@ const content = {
     ],
     featuresToggle: "Показать ещё",
     reviewsTitle: "Что говорят наши гости",
-    reviewsLead: "Реальные впечатления",
-    reviewsLink: "путешественников",
-    reviewsLeadSuffix: "со всего мира",
+    reviewsLead: "По материалам недавних",
+    reviewsLink: "отзывов в Google",
+    reviewsLeadSuffix: "о Happy Lounge",
+    reviewsSource: "Google Отзывы",
+    reviewsCta: "Читать все в Google",
     galleryTitle: "Галерея",
     galleryLead: "Фотографии",
     galleryAccent: "Happy Lounge capsule hotel",
@@ -235,6 +244,25 @@ const content = {
     checkOutLabel: "Выезд",
     locationLine: "63 Merab Kostava St, Тбилиси, Грузия",
     openBookingNewTab: "Открыть бронирование в новой вкладке",
+    openInGoogleMaps: "Открыть в Google Maps",
+    mapCredit: "Интерактивная карта на базе Google Maps",
+    reviews: [
+      {
+        title: "Чисто и удобно",
+        text: "Гости регулярно отмечают чистые капсулы, хорошую приватность и уютный формат для короткого проживания в Тбилиси.",
+        person: "Отзыв в Google",
+      },
+      {
+        title: "Дружелюбный персонал",
+        text: "Во многих отзывах хвалят приветливый сервис, быстрый заезд и спокойную атмосферу в общих зонах.",
+        person: "Отзыв в Google",
+      },
+      {
+        title: "Удобная локация",
+        text: "Путешественники пишут, что отель легко найти, он расположен рядом с транспортом и удобен для поездок по центру города.",
+        person: "Отзыв в Google",
+      },
+    ],
   },
   ka: {
     locale: "ka-GE",
@@ -292,9 +320,11 @@ const content = {
     ],
     featuresToggle: "მეტის ჩვენება",
     reviewsTitle: "რას ამბობენ ჩვენი სტუმრები",
-    reviewsLead: "რეალური შთაბეჭდილებები",
-    reviewsLink: "მოგზაურებისგან",
-    reviewsLeadSuffix: "მთელი მსოფლიოდან",
+    reviewsLead: "დაფუძნებულია ბოლო",
+    reviewsLink: "Google შეფასებებზე",
+    reviewsLeadSuffix: "Happy Lounge-ის შესახებ",
+    reviewsSource: "Google შეფასებები",
+    reviewsCta: "ყველას ნახვა Google-ში",
     galleryTitle: "გალერეა",
     galleryLead: "ფოტოები",
     galleryAccent: "Happy Lounge capsule hotel-დან",
@@ -302,6 +332,25 @@ const content = {
     checkOutLabel: "გასვლა",
     locationLine: "63 Merab Kostava St, თბილისი, საქართველო",
     openBookingNewTab: "დაჯავშნის გახსნა ახალ ჩანართში",
+    openInGoogleMaps: "გახსნა Google Maps-ში",
+    mapCredit: "ინტერაქტიული რუკა Google Maps-ისგან",
+    reviews: [
+      {
+        title: "სუფთა და კომფორტული",
+        text: "სტუმრები ხშირად აღნიშნავენ სუფთა კაფსულებს, კარგ პირად სივრცეს და მყუდრო გარემოს მოკლე დარჩენისთვის თბილისში.",
+        person: "Google შეფასება",
+      },
+      {
+        title: "კარგი მომსახურება",
+        text: "შეფასებებში ხშირად ჩანს მეგობრული პერსონალი, მარტივი check-in და მშვიდი ატმოსფერო საერთო სივრცეებში.",
+        person: "Google შეფასება",
+      },
+      {
+        title: "მოხერხებული მდებარეობა",
+        text: "მოგზაურები წერენ, რომ სასტუმრო ადვილად მისადგომია, ახლოს არის ტრანსპორტთან და მოსახერხებელია ქალაქში გადაადგილებისთვის.",
+        person: "Google შეფასება",
+      },
+    ],
   },
 } as const
 
@@ -574,6 +623,7 @@ export function HappyLoungeLanding() {
   }, [lightboxIndex])
 
   const copy = content[language]
+  const reviews = copy.reviews
   const dateLocale = copy.locale
   const calendarLabels = calendarLocaleData[language]
   const monthLabel = useMemo(() => {
@@ -966,7 +1016,10 @@ export function HappyLoungeLanding() {
               {copy.reviewsTitle}
             </h2>
             <p className={styles.lead}>
-              {copy.reviewsLead} <a href="#gallery">{copy.reviewsLink}</a>{" "}
+              {copy.reviewsLead}{" "}
+              <a href={GOOGLE_MAPS_URL} target="_blank" rel="noreferrer">
+                {copy.reviewsLink}
+              </a>{" "}
               {copy.reviewsLeadSuffix}
             </p>
           </div>
@@ -990,9 +1043,18 @@ export function HappyLoungeLanding() {
                 <div className={styles.stars} aria-label="Five stars">
                   *****
                 </div>
+                <p className={styles.reviewSource}>{copy.reviewsSource}</p>
                 <h3 className={styles.reviewTitle}>{reviews[reviewIndex].title}</h3>
                 <p className={styles.quote}>{reviews[reviewIndex].text}</p>
                 <p className={styles.person}>{reviews[reviewIndex].person}</p>
+                <a
+                  className={styles.reviewLink}
+                  href={GOOGLE_MAPS_URL}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  {copy.reviewsCta}
+                </a>
               </div>
             </article>
 
@@ -1078,19 +1140,19 @@ export function HappyLoungeLanding() {
           <div className={styles.map} aria-label="Map showing Happy Lounge capsule hotel location">
             <iframe
               className={styles.mapFrame}
-              title="Happy Lounge capsule hotel on OpenStreetMap"
-              src="https://www.openstreetmap.org/export/embed.html?bbox=44.778185%2C41.712087%2C44.786185%2C41.716087&layer=mapnik&marker=41.714087%2C44.782185"
+              title="Happy Lounge capsule hotel on Google Maps"
+              src={GOOGLE_MAPS_EMBED_URL}
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
             />
             <p className={styles.mapCredit}>
-              Map data from{" "}
+              {copy.mapCredit}{" "}
               <a
-                href="https://www.openstreetmap.org/copyright"
+                href={GOOGLE_MAPS_URL}
                 target="_blank"
                 rel="noreferrer"
               >
-                OpenStreetMap
+                {copy.openInGoogleMaps}
               </a>
             </p>
           </div>
