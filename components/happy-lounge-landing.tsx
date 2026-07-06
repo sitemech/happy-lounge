@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import {
   AtSign,
   BedDouble,
@@ -93,29 +93,29 @@ const featuredGalleryImages = [
 ]
 
 const detailGalleryImages = [
-  { src: "happy-lounge/details/image00004.jpeg", alt: "Guest working inside a blue-lit capsule" },
-  { src: "happy-lounge/details/image00003.jpeg", alt: "Coworking lounge with bean bags and natural light" },
-  { src: "happy-lounge/details/image00023.jpeg", alt: "Single capsule interior with ambient blue lighting" },
-  { src: "happy-lounge/details/image00019.jpeg", alt: "Capsule mirror and control panel with blue lights" },
-  { src: "happy-lounge/details/image00009.jpeg", alt: "Secure personal lockers in the shared corridor" },
-  { src: "happy-lounge/details/image00002.jpeg", alt: "Capsule bed with television and soft blue lighting" },
-  { src: "happy-lounge/details/image00013.jpeg", alt: "Close-up of capsule ceiling and lighting details" },
-  { src: "happy-lounge/details/image00016.jpeg", alt: "Capsule controls and illuminated mirror detail" },
-  { src: "happy-lounge/details/image00001.jpeg", alt: "Capsule interior with glowing mirror and media panel" },
-  { src: "happy-lounge/details/image00015.jpeg", alt: "Blue-lit capsule ceiling with futuristic geometry" },
-  { src: "happy-lounge/details/image00011.jpeg", alt: "Locker wall with contactless access system" },
-  { src: "happy-lounge/details/image00014.jpeg", alt: "Capsule exterior with ladder and illuminated entry" },
-  { src: "happy-lounge/details/image00012.jpeg", alt: "Capsule corridor with multiple open berths" },
-  { src: "happy-lounge/details/image00007.jpeg", alt: "Coffee station in the common kitchen area" },
-  { src: "happy-lounge/details/image00008.jpeg", alt: "Dining lounge with television and communal tables" },
-  { src: "happy-lounge/details/image00005.jpeg", alt: "Upper lounge and coworking space overview" },
-  { src: "happy-lounge/details/image00017.jpeg", alt: "Capsule setup for reading and remote work" },
-  { src: "happy-lounge/details/image00010.jpeg", alt: "Locker close-up with contactless key access" },
-  { src: "happy-lounge/details/image00018.jpeg", alt: "Capsule with laptop ready for work or rest" },
-  { src: "happy-lounge/details/image00020.jpeg", alt: "Open lower capsule with soft interior glow" },
-  { src: "happy-lounge/details/image00006.jpeg", alt: "Bright lounge corner with seating and city light" },
-  { src: "happy-lounge/details/image00022.jpeg", alt: "Capsule stack with illuminated entrances and ladders" },
-  { src: "happy-lounge/details/image00021.jpeg", alt: "Single capsule with illuminated mirror wall" },
+  { src: "happy-lounge/details/image00004.webp", alt: "Guest working inside a blue-lit capsule" },
+  { src: "happy-lounge/details/image00003.webp", alt: "Coworking lounge with bean bags and natural light" },
+  { src: "happy-lounge/details/image00023.webp", alt: "Single capsule interior with ambient blue lighting" },
+  { src: "happy-lounge/details/image00019.webp", alt: "Capsule mirror and control panel with blue lights" },
+  { src: "happy-lounge/details/image00009.webp", alt: "Secure personal lockers in the shared corridor" },
+  { src: "happy-lounge/details/image00002.webp", alt: "Capsule bed with television and soft blue lighting" },
+  { src: "happy-lounge/details/image00013.webp", alt: "Close-up of capsule ceiling and lighting details" },
+  { src: "happy-lounge/details/image00016.webp", alt: "Capsule controls and illuminated mirror detail" },
+  { src: "happy-lounge/details/image00001.webp", alt: "Capsule interior with glowing mirror and media panel" },
+  { src: "happy-lounge/details/image00015.webp", alt: "Blue-lit capsule ceiling with futuristic geometry" },
+  { src: "happy-lounge/details/image00011.webp", alt: "Locker wall with contactless access system" },
+  { src: "happy-lounge/details/image00014.webp", alt: "Capsule exterior with ladder and illuminated entry" },
+  { src: "happy-lounge/details/image00012.webp", alt: "Capsule corridor with multiple open berths" },
+  { src: "happy-lounge/details/image00007.webp", alt: "Coffee station in the common kitchen area" },
+  { src: "happy-lounge/details/image00008.webp", alt: "Dining lounge with television and communal tables" },
+  { src: "happy-lounge/details/image00005.webp", alt: "Upper lounge and coworking space overview" },
+  { src: "happy-lounge/details/image00017.webp", alt: "Capsule setup for reading and remote work" },
+  { src: "happy-lounge/details/image00010.webp", alt: "Locker close-up with contactless key access" },
+  { src: "happy-lounge/details/image00018.webp", alt: "Capsule with laptop ready for work or rest" },
+  { src: "happy-lounge/details/image00020.webp", alt: "Open lower capsule with soft interior glow" },
+  { src: "happy-lounge/details/image00006.webp", alt: "Bright lounge corner with seating and city light" },
+  { src: "happy-lounge/details/image00022.webp", alt: "Capsule stack with illuminated entrances and ladders" },
+  { src: "happy-lounge/details/image00021.webp", alt: "Single capsule with illuminated mirror wall" },
 ] as const
 
 const galleryImages = [...featuredGalleryImages, ...detailGalleryImages]
@@ -414,6 +414,18 @@ function getDetailSlidesPerView(width: number) {
   return 3
 }
 
+function preloadImage(
+  src: string,
+  cache: Map<string, HTMLImageElement>,
+) {
+  if (cache.has(src)) return
+
+  const image = new window.Image()
+  image.decoding = "async"
+  image.src = src
+  cache.set(src, image)
+}
+
 export function HappyLoungeLanding() {
   const [language, setLanguage] = useState<Language>("en")
   const [menuOpen, setMenuOpen] = useState(false)
@@ -422,6 +434,7 @@ export function HappyLoungeLanding() {
   const [detailIndex, setDetailIndex] = useState(0)
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null)
   const [viewportWidth, setViewportWidth] = useState(1440)
+  const imageCacheRef = useRef<Map<string, HTMLImageElement>>(new Map())
 
   useEffect(() => {
     const onResize = () => setViewportWidth(window.innerWidth)
@@ -474,6 +487,18 @@ export function HappyLoungeLanding() {
     return () => window.removeEventListener("keydown", onKeyDown)
   }, [lightboxIndex])
 
+  useEffect(() => {
+    if (lightboxIndex === null) return
+
+    const aroundLightbox = [
+      galleryImages[lightboxIndex].src,
+      galleryImages[(lightboxIndex + 1) % galleryImages.length].src,
+      galleryImages[(lightboxIndex - 1 + galleryImages.length) % galleryImages.length].src,
+    ]
+
+    aroundLightbox.forEach((src) => preloadImage(src, imageCacheRef.current))
+  }, [lightboxIndex])
+
   const copy = content[language]
   const reviews = copy.reviews
   const galleryColumns = getGalleryColumns(viewportWidth)
@@ -484,6 +509,39 @@ export function HappyLoungeLanding() {
     (_, offset) =>
       detailGalleryImages[(detailIndex + offset) % detailGalleryImages.length],
   )
+
+  useEffect(() => {
+    const visibleSources = visibleDetailItems.map((image) => image.src)
+    visibleSources.forEach((src) => preloadImage(src, imageCacheRef.current))
+
+    const leadSources = [
+      ...featuredGalleryImages.map((image) => image.src),
+      ...visibleSources,
+    ]
+    leadSources.forEach((src) => preloadImage(src, imageCacheRef.current))
+
+    const deferredSources = detailGalleryImages
+      .map((image) => image.src)
+      .filter((src) => !leadSources.includes(src))
+
+    let queueIndex = 0
+    let timeoutId: number | null = null
+
+    const drainQueue = () => {
+      const nextSrc = deferredSources[queueIndex]
+      if (!nextSrc) return
+
+      preloadImage(nextSrc, imageCacheRef.current)
+      queueIndex += 1
+      timeoutId = window.setTimeout(drainQueue, 120)
+    }
+
+    timeoutId = window.setTimeout(drainQueue, 180)
+
+    return () => {
+      if (timeoutId !== null) window.clearTimeout(timeoutId)
+    }
+  }, [detailIndex, detailSlidesPerView])
 
   return (
     <main className={styles.page}>
@@ -706,7 +764,12 @@ export function HappyLoungeLanding() {
                     type="button"
                     onClick={() => setLightboxIndex(actualIndex)}
                   >
-                    <img src={image.src} alt={image.alt} />
+                    <img
+                      src={image.src}
+                      alt={image.alt}
+                      loading={actualIndex === 0 ? "eager" : "lazy"}
+                      decoding="async"
+                    />
                   </button>
                 )
               })}
@@ -765,7 +828,12 @@ export function HappyLoungeLanding() {
                     type="button"
                     onClick={() => setLightboxIndex(actualIndex)}
                   >
-                    <img src={image.src} alt={image.alt} />
+                    <img
+                      src={image.src}
+                      alt={image.alt}
+                      loading="eager"
+                      decoding="async"
+                    />
                   </button>
                 )
               })}
@@ -834,6 +902,7 @@ export function HappyLoungeLanding() {
             className={styles.lightboxImage}
             src={galleryImages[lightboxIndex].src}
             alt={galleryImages[lightboxIndex].alt}
+            decoding="async"
           />
           <button
             className={`${styles.lightboxNav} ${styles.lightboxNext}`}
