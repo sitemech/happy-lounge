@@ -32,10 +32,49 @@
     no-repeat;
 }
 
+.socialBar {
+  position: absolute;
+  z-index: 3;
+  top: 18px;
+  left: 42px;
+  right: 42px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.socialLink {
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  color: #fff;
+  background: rgba(9, 14, 22, 0.34);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(14px);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.18);
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.socialLink:hover {
+  transform: translateY(-1px);
+  background: rgba(47, 140, 255, 0.22);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.socialLink svg {
+  width: 18px;
+  height: 18px;
+}
+
 .nav {
   position: absolute;
   z-index: 3;
-  top: 48px;
+  top: 72px;
   left: 42px;
   right: 42px;
   display: flex;
@@ -564,8 +603,13 @@
     min-height: 520px;
   }
 
+  .socialBar {
+    left: 24px;
+    right: 24px;
+  }
+
   .nav {
-    top: 28px;
+    top: 66px;
     left: 24px;
     right: 24px;
   }
@@ -631,10 +675,28 @@
     min-height: 568px;
   }
 
+  .socialBar {
+    top: 14px;
+    left: 18px;
+    right: 18px;
+    gap: 8px;
+  }
+
+  .socialLink {
+    width: 38px;
+    height: 38px;
+  }
+
   .hero {
     background-position:
       center,
       58% center;
+  }
+
+  .nav {
+    top: 58px;
+    left: 18px;
+    right: 18px;
   }
 
   .heroTitle {

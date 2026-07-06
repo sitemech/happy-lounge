@@ -1,7 +1,22 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { BedDouble, ChevronLeft, ChevronRight, Coffee, Lock, MapPin, Sparkles, X, Zap } from "lucide-react"
+import {
+  AtSign,
+  BedDouble,
+  Camera,
+  ChevronLeft,
+  ChevronRight,
+  Coffee,
+  Link2,
+  Lock,
+  MapPin,
+  MessageCircleMore,
+  Send,
+  Sparkles,
+  X,
+  Zap,
+} from "lucide-react"
 
 import styles from "./happy-lounge-landing.module.css"
 
@@ -13,6 +28,34 @@ const GOOGLE_MAPS_URL =
   "https://www.google.com/maps/search/?api=1&query=Happy+Lounge+capsule+hotel+63+Merab+Kostava+St+Tbilisi"
 const GOOGLE_MAPS_EMBED_URL =
   "https://www.google.com/maps?q=41.714087,44.782185&z=16&output=embed"
+
+const socialLinks = [
+  {
+    href: "https://linktr.ee/happy_lounge?fbclid=IwY2xjawSwk_9leHRuA2FlbQIxMABicmlkETFJVkMxN0k4NHJYdkdqdUo2c3J0YwZhcHBfaWQQMjIyMDM5MTc4ODIwMDg5MgABHsDrfJn6SNPV3r0NZEAN7uZrHOclZfzIZN_9Ao1R_Bmi_PRQjmKpX8vwTHFS_aem_dgSt7SRTHxzQQ3HwbV9aJw",
+    label: "Linktree",
+    Icon: Link2,
+  },
+  {
+    href: "https://www.instagram.com/capsule_hotel_tbilisi",
+    label: "Instagram",
+    Icon: Camera,
+  },
+  {
+    href: "https://www.facebook.com/profile.php?id=61589870320539",
+    label: "Facebook",
+    Icon: MessageCircleMore,
+  },
+  {
+    href: "https://www.threads.com/@capsule_hotel_tbilisi",
+    label: "Threads",
+    Icon: AtSign,
+  },
+  {
+    href: "https://t.me/capsule_hotel_tbilisi",
+    label: "Telegram",
+    Icon: Send,
+  },
+] as const
 
 const featuredGalleryImages = [
   {
@@ -450,6 +493,22 @@ export function HappyLoungeLanding() {
           id="top"
           style={{ backgroundImage: HERO_BACKGROUND }}
         >
+          <div className={styles.socialBar} aria-label="Social links">
+            {socialLinks.map(({ href, label, Icon }) => (
+              <a
+                key={label}
+                className={styles.socialLink}
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={label}
+                title={label}
+              >
+                <Icon />
+              </a>
+            ))}
+          </div>
+
           <nav className={styles.nav} aria-label="Main navigation">
             <a className={styles.brand} href="#top">
               HAPPY LOUNGE
