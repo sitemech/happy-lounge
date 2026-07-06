@@ -14,7 +14,7 @@ const GOOGLE_MAPS_URL =
 const GOOGLE_MAPS_EMBED_URL =
   "https://www.google.com/maps?q=41.714087,44.782185&z=16&output=embed"
 
-const galleryImages = [
+const featuredGalleryImages = [
   {
     src: "happy-lounge/gallery/684155150_18098393440895782_4862020916351866538_n.webp",
     alt: "Capsule corridor with colorful lighting",
@@ -49,6 +49,34 @@ const galleryImages = [
   },
 ]
 
+const detailGalleryImages = [
+  { src: "happy-lounge/details/image00004.jpeg", alt: "Guest working inside a blue-lit capsule" },
+  { src: "happy-lounge/details/image00003.jpeg", alt: "Coworking lounge with bean bags and natural light" },
+  { src: "happy-lounge/details/image00023.jpeg", alt: "Single capsule interior with ambient blue lighting" },
+  { src: "happy-lounge/details/image00019.jpeg", alt: "Capsule mirror and control panel with blue lights" },
+  { src: "happy-lounge/details/image00009.jpeg", alt: "Secure personal lockers in the shared corridor" },
+  { src: "happy-lounge/details/image00002.jpeg", alt: "Capsule bed with television and soft blue lighting" },
+  { src: "happy-lounge/details/image00013.jpeg", alt: "Close-up of capsule ceiling and lighting details" },
+  { src: "happy-lounge/details/image00016.jpeg", alt: "Capsule controls and illuminated mirror detail" },
+  { src: "happy-lounge/details/image00001.jpeg", alt: "Capsule interior with glowing mirror and media panel" },
+  { src: "happy-lounge/details/image00015.jpeg", alt: "Blue-lit capsule ceiling with futuristic geometry" },
+  { src: "happy-lounge/details/image00011.jpeg", alt: "Locker wall with contactless access system" },
+  { src: "happy-lounge/details/image00014.jpeg", alt: "Capsule exterior with ladder and illuminated entry" },
+  { src: "happy-lounge/details/image00012.jpeg", alt: "Capsule corridor with multiple open berths" },
+  { src: "happy-lounge/details/image00007.jpeg", alt: "Coffee station in the common kitchen area" },
+  { src: "happy-lounge/details/image00008.jpeg", alt: "Dining lounge with television and communal tables" },
+  { src: "happy-lounge/details/image00005.jpeg", alt: "Upper lounge and coworking space overview" },
+  { src: "happy-lounge/details/image00017.jpeg", alt: "Capsule setup for reading and remote work" },
+  { src: "happy-lounge/details/image00010.jpeg", alt: "Locker close-up with contactless key access" },
+  { src: "happy-lounge/details/image00018.jpeg", alt: "Capsule with laptop ready for work or rest" },
+  { src: "happy-lounge/details/image00020.jpeg", alt: "Open lower capsule with soft interior glow" },
+  { src: "happy-lounge/details/image00006.jpeg", alt: "Bright lounge corner with seating and city light" },
+  { src: "happy-lounge/details/image00022.jpeg", alt: "Capsule stack with illuminated entrances and ladders" },
+  { src: "happy-lounge/details/image00021.jpeg", alt: "Single capsule with illuminated mirror wall" },
+] as const
+
+const galleryImages = [...featuredGalleryImages, ...detailGalleryImages]
+
 const content = {
   en: {
     locale: "en-US",
@@ -72,7 +100,7 @@ const content = {
       },
       {
         label: "Modern Amenities:",
-        text: "Each room features a refrigerator, shared bathroom, seating area, shower, dining area, and kitchenware. Additional amenities include a TV, ensuring a pleasant stay.",
+        text: "Shared spaces include clean showers and restrooms, a fully equipped kitchen, dining and lounge zones, coworking corners, and TV access for a pleasant stay.",
       },
     ],
     comfortTitle: "Find the stay that fits you perfectly",
@@ -90,11 +118,11 @@ const content = {
       },
       {
         title: "Secure Storage",
-        text: "Each stay includes a safe locker for your belongings - peace of mind, always.",
+        text: "Each stay includes a personal locker for your belongings - peace of mind while you explore the city.",
       },
       {
         title: "Prime Location",
-        text: "Situated in the very heart of the city, at the intersection of major transport routes.",
+        text: "Stay in central Tbilisi with quick access to major routes, city transport, and everyday essentials.",
       },
       {
         title: "Effortless Check-In",
@@ -115,10 +143,18 @@ const content = {
     galleryTitle: "Gallery",
     galleryLead: "Photos from",
     galleryAccent: "Happy Lounge capsule hotel",
+    detailGalleryTitle: "Inside the space",
+    detailGalleryText:
+      "A closer look at the capsules, coworking lounge, shared kitchen, lockers, and the atmosphere guests experience on site.",
+    detailGalleryPrev: "Previous photos",
+    detailGalleryNext: "Next photos",
     locationLine: "63 Merab Kostava St, Tbilisi, Georgia",
     openBookingNewTab: "Open booking in new tab",
     openInGoogleMaps: "Open in Google Maps",
     mapCredit: "Interactive map powered by Google Maps",
+    lightboxClose: "Close preview",
+    lightboxPrev: "Previous large photo",
+    lightboxNext: "Next large photo",
     reviews: [
       {
         title: "Clean and comfortable",
@@ -156,7 +192,7 @@ const content = {
       },
       {
         label: "Современные удобства:",
-        text: "В каждом номере есть холодильник, общая ванная комната, зона отдыха, душ, обеденная зона и кухонные принадлежности. Также предусмотрен телевизор для приятного пребывания.",
+        text: "В общих зонах есть чистые душевые и туалеты, полностью оборудованная кухня, обеденная и лаунж-зоны, места для коворкинга и телевизор для комфортного отдыха.",
       },
     ],
     comfortTitle: "Найдите формат проживания, который подходит именно вам",
@@ -174,11 +210,11 @@ const content = {
       },
       {
         title: "Безопасное хранение",
-        text: "В каждое проживание входит надёжный шкафчик для ваших вещей - спокойствие всегда рядом.",
+        text: "В каждое бронирование входит персональный локер для ваших вещей - можно спокойно гулять по городу.",
       },
       {
         title: "Удобное расположение",
-        text: "Отель расположен в самом сердце города, на пересечении основных транспортных маршрутов.",
+        text: "Остановитесь в центре Тбилиси с быстрым доступом к основным маршрутам, транспорту и городской инфраструктуре.",
       },
       {
         title: "Быстрый заезд",
@@ -199,10 +235,18 @@ const content = {
     galleryTitle: "Галерея",
     galleryLead: "Фотографии",
     galleryAccent: "Happy Lounge capsule hotel",
+    detailGalleryTitle: "Пространство внутри",
+    detailGalleryText:
+      "Больше деталей о капсулах, коворкинге, общей кухне, локерах и той атмосфере, которую гости видят на месте.",
+    detailGalleryPrev: "Предыдущие фото",
+    detailGalleryNext: "Следующие фото",
     locationLine: "63 Merab Kostava St, Тбилиси, Грузия",
     openBookingNewTab: "Открыть бронирование в новой вкладке",
     openInGoogleMaps: "Открыть в Google Maps",
     mapCredit: "Интерактивная карта на базе Google Maps",
+    lightboxClose: "Закрыть просмотр",
+    lightboxPrev: "Предыдущее большое фото",
+    lightboxNext: "Следующее большое фото",
     reviews: [
       {
         title: "Чисто и удобно",
@@ -235,11 +279,11 @@ const content = {
     introParagraphs: [
       {
         label: "კომფორტული განთავსება:",
-        text: "Capsule Hotel Happy Lounge თბილისში გთავაზობთ კონდიცირებულ ოთახებს, ინდივიდუალურ შესვლასა და გასვლას, ლაუნჯ-სივრცეს და 24-საათიან მისაღებს. სტუმრებს აქვთ უფასო Wi‑Fi, ყოველდღიური დალაგება და ბარგის შენახვა.",
+        text: "Capsule Hotel Happy Lounge თბილისში გთავაზობთ კონდიცირებულ ოთახებს, პრივატულ check-in / check-out-ს, ლაუნჯ-სივრცესა და 24/7 მისაღებს. სტუმრებს აქვთ უფასო Wi‑Fi, ყოველდღიური დალაგება და ბარგის შესანახი ადგილი.",
       },
       {
         label: "თანამედროვე კომფორტი:",
-        text: "თითოეულ ოთახში არის მაცივარი, საერთო სააბაზანო, დასასვენებელი სივრცე, შხაპი, სასადილო ზონა და სამზარეულოს ნივთები. სასიამოვნო ყოფნისთვის ასევე ხელმისაწვდომია ტელევიზორი.",
+        text: "საერთო სივრცეში არის სუფთა საშხაპეები და ტუალეტები, სრულად აღჭურვილი სამზარეულო, სასადილო და დასასვენებელი ზონები, coworking სივრცე და ტელევიზორი კომფორტული ყოფნისთვის.",
       },
     ],
     comfortTitle: "იპოვეთ დარჩენის ფორმატი, რომელიც ზუსტად თქვენ გერგებათ",
@@ -249,22 +293,22 @@ const content = {
     features: [
       {
         title: "კაფსულის ტიპები",
-        text: "Minimal basic - მარტივი, ჭკვიანი და კომფორტული. Immersive full - გაუმჯობესებული გამოცდილება ჩაშენებული Smart TV-ით. Double capsule - შექმნილია ორისთვის, პირადი კომფორტის დათმობის გარეშე.",
+        text: "Minimal basic - მარტივი, პრაქტიკული და კომფორტული. Immersive full - გაუმჯობესებული გამოცდილება ჩაშენებული Smart TV-ით. Double capsule - ფართო კაფსულა ორისთვის, პირადი სივრცის დაცვით.",
       },
       {
         title: "პერსონალური კომფორტი",
         text: "ყველა კაფსულას აქვს რეგულირებადი RGB განათება და ვენტილაცია, რათა შექმნათ თქვენთვის იდეალური ატმოსფერო.",
       },
       {
-        title: "უსაფრთხო შენახვა",
-        text: "ყოველ დარჩენაში შედის უსაფრთხო საკეტი თქვენი ნივთებისთვის - სიმშვიდე ყოველთვის თქვენთანაა.",
+        title: "უსაფრთხო ლოქერი",
+        text: "ყოველ ჯავშანში შედის პერსონალური ლოქერი თქვენი ნივთებისთვის - შეგიძლიათ მშვიდად ისეირნოთ ქალაქში.",
       },
       {
         title: "მოხერხებული მდებარეობა",
-        text: "სასტუმრო მდებარეობს ქალაქის გულში, ძირითადი სატრანსპორტო მარშრუტების გადაკვეთაზე.",
+        text: "დარჩით თბილისის ცენტრში, ძირითადი მარშრუტების, ტრანსპორტისა და ყოველდღიური საჭიროებების მარტივი წვდომით.",
       },
       {
-        title: "მარტივი შესვლა",
+        title: "მარტივი რეგისტრაცია",
         text: "ღიაა 24/7. დაყოვნებისა და სირთულეების გარეშე - მხოლოდ პასპორტი და უკვე შიგნით ხართ.",
       },
       {
@@ -282,10 +326,18 @@ const content = {
     galleryTitle: "გალერეა",
     galleryLead: "ფოტოები",
     galleryAccent: "Happy Lounge capsule hotel-დან",
+    detailGalleryTitle: "სივრცე შიგნიდან",
+    detailGalleryText:
+      "დეტალურად ნახეთ კაფსულები, coworking ზონა, საერთო სამზარეულო, ლოქერები და ის ატმოსფერო, რომელსაც სტუმრები ადგილზე ხვდებიან.",
+    detailGalleryPrev: "წინა ფოტოები",
+    detailGalleryNext: "შემდეგი ფოტოები",
     locationLine: "63 Merab Kostava St, თბილისი, საქართველო",
     openBookingNewTab: "დაჯავშნის გახსნა ახალ ჩანართში",
     openInGoogleMaps: "გახსნა Google Maps-ში",
     mapCredit: "ინტერაქტიული რუკა Google Maps-ისგან",
+    lightboxClose: "ნახვის დახურვა",
+    lightboxPrev: "წინა დიდი ფოტო",
+    lightboxNext: "შემდეგი დიდი ფოტო",
     reviews: [
       {
         title: "სუფთა და კომფორტული",
@@ -313,11 +365,18 @@ function getGalleryColumns(width: number) {
   return 4
 }
 
+function getDetailSlidesPerView(width: number) {
+  if (width <= 540) return 1
+  if (width <= 900) return 2
+  return 3
+}
+
 export function HappyLoungeLanding() {
   const [language, setLanguage] = useState<Language>("en")
   const [menuOpen, setMenuOpen] = useState(false)
   const [featuresExpanded, setFeaturesExpanded] = useState(false)
   const [reviewIndex, setReviewIndex] = useState(0)
+  const [detailIndex, setDetailIndex] = useState(0)
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null)
   const [viewportWidth, setViewportWidth] = useState(1440)
 
@@ -375,7 +434,13 @@ export function HappyLoungeLanding() {
   const copy = content[language]
   const reviews = copy.reviews
   const galleryColumns = getGalleryColumns(viewportWidth)
-  const visibleGalleryItems = galleryImages
+  const detailSlidesPerView = getDetailSlidesPerView(viewportWidth)
+  const visibleGalleryItems = featuredGalleryImages
+  const visibleDetailItems = Array.from(
+    { length: detailSlidesPerView },
+    (_, offset) =>
+      detailGalleryImages[(detailIndex + offset) % detailGalleryImages.length],
+  )
 
   return (
     <main className={styles.page}>
@@ -589,6 +654,65 @@ export function HappyLoungeLanding() {
             </div>
           </div>
 
+          <div className={styles.detailGallery}>
+            <div className={styles.detailGalleryHead}>
+              <div className={styles.detailGalleryCopy}>
+                <h3 className={styles.detailGalleryTitle}>{copy.detailGalleryTitle}</h3>
+                <p className={styles.detailGalleryText}>{copy.detailGalleryText}</p>
+              </div>
+
+              <div className={styles.detailGalleryControls}>
+                <button
+                  className={styles.detailGalleryButton}
+                  type="button"
+                  aria-label={copy.detailGalleryPrev}
+                  onClick={() =>
+                    setDetailIndex(
+                      (detailIndex - 1 + detailGalleryImages.length) %
+                        detailGalleryImages.length,
+                    )
+                  }
+                >
+                  ‹
+                </button>
+                <button
+                  className={styles.detailGalleryButton}
+                  type="button"
+                  aria-label={copy.detailGalleryNext}
+                  onClick={() =>
+                    setDetailIndex((detailIndex + 1) % detailGalleryImages.length)
+                  }
+                >
+                  ›
+                </button>
+              </div>
+            </div>
+
+            <div
+              className={styles.detailGalleryGrid}
+              style={{
+                gridTemplateColumns: `repeat(${detailSlidesPerView}, minmax(0, 1fr))`,
+              }}
+            >
+              {visibleDetailItems.map((image) => {
+                const actualIndex = galleryImages.findIndex(
+                  (item) => item.src === image.src && item.alt === image.alt,
+                )
+
+                return (
+                  <button
+                    key={`${image.src}-${image.alt}`}
+                    className={styles.detailGalleryItem}
+                    type="button"
+                    onClick={() => setLightboxIndex(actualIndex)}
+                  >
+                    <img src={image.src} alt={image.alt} />
+                  </button>
+                )
+              })}
+            </div>
+          </div>
+
           <p className={styles.location}>
             <strong>Happy Lounge capsule hotel</strong>{" "}
             <span>{copy.locationLine}</span>
@@ -629,7 +753,7 @@ export function HappyLoungeLanding() {
           <button
             className={styles.close}
             type="button"
-            aria-label="Close preview"
+            aria-label={copy.lightboxClose}
             onClick={() => setLightboxIndex(null)}
           >
             <X />
@@ -637,7 +761,7 @@ export function HappyLoungeLanding() {
           <button
             className={`${styles.lightboxNav} ${styles.lightboxPrev}`}
             type="button"
-            aria-label="Previous large photo"
+            aria-label={copy.lightboxPrev}
             onClick={(event) => {
               event.stopPropagation()
               setLightboxIndex(
@@ -655,7 +779,7 @@ export function HappyLoungeLanding() {
           <button
             className={`${styles.lightboxNav} ${styles.lightboxNext}`}
             type="button"
-            aria-label="Next large photo"
+            aria-label={copy.lightboxNext}
             onClick={(event) => {
               event.stopPropagation()
               setLightboxIndex((lightboxIndex + 1) % galleryImages.length)
